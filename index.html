@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DecodeLabs | Cryptographic Sandbox (Project 2)</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  <!-- Google Fonts: Outfit (headings), Inter (body), JetBrains Mono (terminal/monospaced) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Animated Gradients -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-logo">
+        <div class="logo-symbol">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>DecodeLabs</h1>
+          <span>CYBER SECURITY FELLOWSHIP</span>
+        </div>
+      </div>
+      <div class="header-meta">
+        <div class="batch-badge">BATCH 2026</div>
+        <div class="project-tag">
+          <span class="pulse-indicator"></span>
+          PROJECT 2: BASIC ENCRYPTION & DECRYPTION
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="workspace-grid">
+      
+      <!-- Panel 1: Configuration & Inputs -->
+      <section class="panel panel-config">
+        <div class="panel-header">
+          <svg viewBox="0 0 24 24" class="panel-icon"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <h2>Algorithm Engine</h2>
+        </div>
+        <div class="panel-body">
+          <!-- Cipher Selector -->
+          <div class="control-group">
+            <label class="control-label">CRYPTOGRAPHIC ALGORITHM</label>
+            <div class="cipher-selector">
+              <button class="selector-btn active" id="btn-caesar" data-cipher="caesar">
+                <span class="btn-title">Caesar Cipher</span>
+                <span class="btn-desc">Shift-based rotation</span>
+              </button>
+              <button class="selector-btn" id="btn-vigenere" data-cipher="vigenere">
+                <span class="btn-title">Vigenère Cipher</span>
+                <span class="btn-desc">Polyalphabetic key substitution</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Parameter Controllers (Caesar) -->
+          <div class="cipher-params active" id="params-caesar">
+            <div class="control-group">
+              <div class="label-with-value">
+                <label class="control-label">ROTATION KEY (SHIFT)</label>
+                <span class="val-display" id="caesar-shift-val">3</span>
+              </div>
+              <div class="slider-container">
+                <input type="range" id="caesar-shift" min="0" max="25" value="3" class="custom-slider">
+                <div class="slider-ticks">
+                  <span>A</span>
+                  <span>F</span>
+                  <span>K</span>
+                  <span>P</span>
+                  <span>U</span>
+                  <span>Z</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Parameter Controllers (Vigenere) -->
+          <div class="cipher-params" id="params-vigenere">
+            <div class="control-group">
+              <label class="control-label" for="vigenere-key">ALPHABETIC SECRET KEY</label>
+              <div class="input-glow-wrapper">
+                <input type="text" id="vigenere-key" value="DECODE" placeholder="Enter key (e.g. SECRET)" maxlength="30" class="custom-input uppercase-only">
+              </div>
+              <small class="helper-text">Key repeats periodically over plaintext length.</small>
+            </div>
+          </div>
+
+          <!-- Extra Configuration Toggles -->
+          <div class="control-group">
+            <label class="control-label">ENGINE SETTINGS</label>
+            <div class="toggles-list">
+              <label class="toggle-wrapper">
+                <input type="checkbox" id="toggle-preserve-case" checked>
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">Preserve Letter Case</span>
+              </label>
+              <label class="toggle-wrapper">
+                <input type="checkbox" id="toggle-ignore-symbols" checked>
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">Skip Spaces & Punctuation</span>
+              </label>
+              <label class="toggle-wrapper">
+                <input type="checkbox" id="toggle-realtime" checked>
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">Real-time Encrypt/Decrypt</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="badge-status-container">
+            <div class="badge-status-card">
+              <div class="badge-icon-small shield-locked" id="badge-lock-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div class="badge-status-info">
+                <h4>Confidentiality Badge</h4>
+                <p id="badge-progress-text">Complete the verification loop to unlock</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 2: Interactive Sandbox console -->
+      <section class="panel panel-io">
+        <div class="panel-header">
+          <svg viewBox="0 0 24 24" class="panel-icon"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <h2>Cryptographic Workspace</h2>
+        </div>
+        
+        <div class="panel-body io-layout">
+          <!-- Text Console Area -->
+          <div class="text-stage">
+            
+            <!-- Plaintext Input -->
+            <div class="stage-section input-stage">
+              <div class="stage-header">
+                <h3>PLAINTEXT (ORIGINAL)</h3>
+                <span class="char-count" id="plaintext-count">0 chars</span>
+              </div>
+              <div class="textarea-glow-wrapper">
+                <textarea id="plaintext-input" placeholder="Type secret message here... e.g., CLASSIFIED_DATA_TRANSFERRED_SUCCESSFULLY"></textarea>
+              </div>
+            </div>
+
+            <!-- Direction Action Buttons (For non-realtime or manual triggers) -->
+            <div class="stage-actions">
+              <div class="action-divider"></div>
+              <div class="action-buttons">
+                <button class="action-btn active" id="btn-encrypt-dir">
+                  <span class="btn-glow-span"></span>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  <span>Encrypt &rarr;</span>
+                </button>
+                <button class="action-btn" id="btn-decrypt-dir">
+                  <span class="btn-glow-span"></span>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>
+                  <span>&larr; Decrypt</span>
+                </button>
+                <button class="secondary-btn" id="btn-reset" title="Reset All Fields">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+                </button>
+              </div>
+              <div class="action-divider"></div>
+            </div>
+
+            <!-- Ciphertext Output -->
+            <div class="stage-section output-stage">
+              <div class="stage-header">
+                <h3>CIPHERTEXT (OBFUSCATED)</h3>
+                <div class="header-actions">
+                  <button class="icon-text-btn" id="btn-copy-cipher">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>Copy</span>
+                  </button>
+                </div>
+              </div>
+              <div class="textarea-glow-wrapper read-only">
+                <textarea id="ciphertext-output" readonly placeholder="Obfuscated text will appear here..."></textarea>
+              </div>
+            </div>
+
+            <!-- Decryption Verification Check -->
+            <div class="stage-section decrypt-stage">
+              <div class="stage-header">
+                <h3>DECRYPTED TEXT (VERIFICATION)</h3>
+                <span class="integrity-badge integrity-fail" id="integrity-badge">
+                  <span class="integrity-dot"></span>
+                  <span id="integrity-text">NOT VERIFIED</span>
+                </span>
+              </div>
+              <div class="textarea-glow-wrapper read-only">
+                <textarea id="decrypted-output" readonly placeholder="Decrypted output matches plaintext when validation is complete..."></textarea>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 3: Interactive Cryptographic Visualizers -->
+      <section class="panel panel-visuals">
+        <div class="panel-header">
+          <svg viewBox="0 0 24 24" class="panel-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <h2>Cryptographic Visualizer</h2>
+          
+          <div class="tab-selectors">
+            <button class="tab-btn active" id="tab-wheel" data-tab="wheel">Cipher Wheel</button>
+            <button class="tab-btn" id="tab-grid" data-tab="grid">Tabula Recta</button>
+            <button class="tab-btn" id="tab-brute" data-tab="brute">Brute-Force Solver</button>
+          </div>
+        </div>
+        
+        <div class="panel-body tab-content-container">
+          
+          <!-- Tab 1: Caesar Cipher Wheel -->
+          <div class="tab-view active" id="view-wheel">
+            <div class="wheel-flex">
+              <div class="wheel-container-graphic">
+                <svg id="cipher-wheel-svg" viewBox="0 0 320 320" width="100%" height="100%">
+                  <!-- JS builds the inner and outer text and paths dynamically -->
+                </svg>
+                <div class="wheel-marker"></div>
+              </div>
+              
+              <div class="wheel-details">
+                <div class="wheel-stat-box">
+                  <div class="stat-title">ALPHABET SHIFT RULE</div>
+                  <div class="stat-main" id="wheel-shift-rule">X &rarr; X + 3</div>
+                </div>
+                <div class="letter-pair-display">
+                  <div class="letter-pair-card">
+                    <div class="pair-label">Plaintext</div>
+                    <div class="pair-val" id="wheel-plain-char">A</div>
+                  </div>
+                  <div class="pair-arrow">&rarr;</div>
+                  <div class="letter-pair-card highlighted">
+                    <div class="pair-label">Ciphertext</div>
+                    <div class="pair-val" id="wheel-cipher-char">D</div>
+                  </div>
+                </div>
+                <p class="wheel-caption">Rotational offset shifts each letter index modulo 26. Shift dial to visualize rotation.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Vigenère Tabula Recta -->
+          <div class="tab-view" id="view-grid">
+            <div class="tabula-container">
+              <div class="tabula-scroll-wrapper" id="tabula-wrapper">
+                <!-- JS will inject standard 26x26 table grid -->
+              </div>
+              <div class="tabula-legend">
+                <div class="legend-item"><span class="legend-color p-color"></span> Plaintext Letter (Row)</div>
+                <div class="legend-item"><span class="legend-color k-color"></span> Key Letter (Col)</div>
+                <div class="legend-item"><span class="legend-color c-color"></span> Intersect Ciphertext</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 3: Caesar Brute Force Panel -->
+          <div class="tab-view" id="view-brute">
+            <div class="brute-force-box">
+              <div class="brute-header">
+                <h3>CAESAR SHIFT PERMUTATIONS</h3>
+                <span class="info-badge">25 SHIFTS COMPUTED</span>
+              </div>
+              <div class="brute-list-container" id="brute-list">
+                <!-- JS builds list of computed shifts -->
+              </div>
+              <small class="helper-text text-center">Click a shift combination to set the rotation key in real-time.</small>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Panel 4: Analytics & Cryptanalysis Lab -->
+      <section class="panel panel-analytics">
+        <div class="panel-header">
+          <svg viewBox="0 0 24 24" class="panel-icon"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <h2>Cryptanalysis Analytics</h2>
+        </div>
+        <div class="panel-body analytics-layout">
+          <!-- Entropy Metric Gauge -->
+          <div class="metric-section">
+            <div class="metric-head">
+              <h3>SHANNON ENTROPY (RANDOMNESS)</h3>
+              <div class="entropy-values">
+                <span class="entropy-val font-mono" id="entropy-plain">0.00</span>
+                <span class="entropy-vs font-mono">VS</span>
+                <span class="entropy-val font-mono text-cyan" id="entropy-cipher">0.00</span>
+              </div>
+            </div>
+            <div class="gauge-bar-track">
+              <div class="gauge-bar-fill fill-plain" id="entropy-bar-plain" style="width: 0%"></div>
+              <div class="gauge-bar-fill fill-cipher" id="entropy-bar-cipher" style="width: 0%"></div>
+            </div>
+            <div class="gauge-labels">
+              <span>0 (Highly Predictable)</span>
+              <span>4.7 (Max Uniformity)</span>
+            </div>
+            <p class="analytics-explanation">Higher entropy values represent higher randomness. Encrypted text distributes characters more evenly, making frequency analysis harder.</p>
+          </div>
+
+          <!-- Char Frequency Histogram -->
+          <div class="frequency-section">
+            <div class="metric-head">
+              <h3>CHARACTER DISTRIBUTION COMPARISON</h3>
+            </div>
+            <div class="freq-histogram-container">
+              <div class="freq-axis-y">
+                <span>100%</span>
+                <span>50%</span>
+                <span>0%</span>
+              </div>
+              <div class="freq-bars-viewport" id="freq-bars-viewport">
+                <!-- JS dynamically generates character bar charts -->
+              </div>
+            </div>
+            <div class="histogram-legend">
+              <span class="legend-dot plain-dot"></span> Plaintext
+              <span class="legend-dot cipher-dot"></span> Ciphertext
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 5: Real-time Terminal Command Line Logging -->
+      <section class="panel panel-terminal">
+        <div class="panel-header">
+          <div class="terminal-dots">
+            <span class="term-dot dot-red"></span>
+            <span class="term-dot dot-yellow"></span>
+            <span class="term-dot dot-green"></span>
+          </div>
+          <h2>DECODELABS CRYPTOGRAPHIC CONSOLE</h2>
+          <button class="terminal-clear" id="btn-clear-logs">Clear Console</button>
+        </div>
+        <div class="panel-body terminal-body font-mono" id="terminal-logs">
+          <!-- Logs will be written here dynamically -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-contacts">
+        <span><strong>Phone:</strong> +91 89330 06408</span>
+        <span><strong>Email:</strong> decodelabs.tech@gmail.com</span>
+        <span><strong>Web:</strong> <a href="http://www.decodelabs.tech" target="_blank">www.decodelabs.tech</a></span>
+        <span><strong>Location:</strong> Greater Lucknow, India</span>
+      </div>
+      <div class="footer-brand">&copy; 2026 DecodeLabs. All rights reserved.</div>
+    </footer>
+  </div>
+
+  <!-- Badge Celebration Modal Pop-up -->
+  <div class="modal-overlay" id="badge-modal">
+    <div class="modal-card">
+      <div class="modal-glow-border"></div>
+      <button class="modal-close" id="btn-close-modal">&times;</button>
+      <div class="modal-badge-graphic">
+        <div class="shield-badge">
+          <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" class="shield-outline"></path>
+            <!-- Checkmark -->
+            <path d="M9 11l2 2 4-4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="shield-check"></path>
+          </svg>
+          <div class="badge-star star-1">★</div>
+          <div class="badge-star star-2">★</div>
+          <div class="badge-star star-3">★</div>
+        </div>
+      </div>
+      <div class="modal-content">
+        <h3>CONGRATULATIONS! 🎉</h3>
+        <h2>Data Confidentiality Badge</h2>
+        <p class="modal-text">You have successfully mastered the basics of encryption and decryption logic, completing the verification feedback loop at DecodeLabs.</p>
+        <div class="intern-cert-details">
+          <div><span class="cert-lbl">Intern Status:</span> Verified Cybersecurity Analyst</div>
+          <div><span class="cert-lbl">Project Badge:</span> Project 2 Cryptographic Phase</div>
+          <div><span class="cert-lbl">Authority:</span> Powered by DecodeLabs</div>
+        </div>
+        <button class="modal-action-btn" id="btn-claim-badge">Claim Badge & Save Certificate</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

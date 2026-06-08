@@ -1,0 +1,17 @@
+{
+  "name": "crypto-sandbox",
+  "version": "1.0.0",
+  "description": "Interactive Cryptographic Sandbox - Project 2 for DecodeLabs Internship",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server ./ -p 5173 -o"
+  },
+  "keywords": [
+    "cryptography",
+    "caesar-cipher",
+    "vigenere-cipher",
+    "decodelabs"
+  ],
+  "author": "DecodeLabs Intern",
+  "license": "ISC"
+}
